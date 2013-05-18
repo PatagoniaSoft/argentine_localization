@@ -1,4 +1,4 @@
-package ar.edu.ifed.print.fiscal.epson;
+package ar.edu.ifes.print.fiscal.epson;
 
 public interface EpsonCommands {
 
