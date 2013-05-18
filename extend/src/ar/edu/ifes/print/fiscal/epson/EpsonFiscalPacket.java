@@ -1,4 +1,4 @@
-package ar.edu.ifes.prin.fiscal.epson;
+package ar.edu.ifes.print.fiscal.epson;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
