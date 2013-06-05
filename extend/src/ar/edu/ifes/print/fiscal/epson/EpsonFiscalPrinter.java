@@ -606,14 +606,14 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 		setPrinterStatus(newPrinterStatus);
 		setFiscalStatus(newFiscalStatus);
 
-		FiscalMessages msgs = new FiscalMessages();
-		// Se chequea el estado del controlador fiscal.
-		for(int i = 0; i < getFiscalStatusCodes().length; i++) {
-			int statusCode = getFiscalStatusCodes()[i];
-			if((getFiscalStatus() & statusCode) != 0) {
-				FiscalMessage msg = getFiscalStatusMsgs().get(statusCode);
-				msgs.add(msg);
-			}
+//		FiscalMessages msgs = new FiscalMessages();
+//		// Se chequea el estado del controlador fiscal.
+//		for(int i = 0; i < getFiscalStatusCodes().length; i++) {
+//			int statusCode = getFiscalStatusCodes()[i];
+//			if((getFiscalStatus() & statusCode) != 0) {
+//				FiscalMessage msg = getFiscalStatusMsgs().get(statusCode);
+//				msgs.add(msg);
+//			}
 		}
 
 		// Se chequea el estado de la impresora.
