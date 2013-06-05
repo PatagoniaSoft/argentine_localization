@@ -26,6 +26,7 @@ import ar.com.ergio.print.fiscal.msg.FiscalMessage;
 import ar.com.ergio.print.fiscal.msg.FiscalMessages;
 import ar.com.ergio.print.fiscal.msg.MsgRepository;
 
+
 /**
  * Impresora Fiscal Epson. Funcionalidad comun a todos los modelos de Epson.
  * Implementa la interfaz <code>EpsonCommands</code>. Cualquier modelo nuevo
@@ -118,7 +119,7 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 	private Map<Integer,FiscalMessage> printerStatusMsgs;
 	/** Posibles mensajes de estado del controlador fiscal */
 	private Map<Integer,FiscalMessage> fiscalStatusMsgs;
-	/** CÛdigos de mensajes de estado de la impresora */
+	/** CÛdigos de mensajes de estado de la impresora *///*faltan las conStantes
 	private int[] printerStatusCodes = { PST_PRINTER_BUSY, PST_PRINTER_ERROR, PST_PRINTER_OFFLINE,
 										 PST_JOURNAL_PAPER_OUT, PST_TICKET_PAPER_OUT, PST_PRINT_BUFFER_FULL,
 										 PST_PRINT_BUFFER_EMPTY, PST_PRINTER_COVER_OPEN, PST_MONEY_DRAWER_CLOSED
@@ -147,34 +148,34 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 		super(fiscalComm);
 	}
 	
-	public FiscalPacket cmdBarCode(Integer codeType, String data, boolean printNumbers) {
-		FiscalPacket cmd = createFiscalPacket(CMD_SET_BAR_CODE);
-		int i = 1;
-		cmd.setNumber(i++, codeType, false);
-		cmd.setText(i++, data, false);
-		cmd.setBoolean(i++, printNumbers, "N", "x", false);
-		cmd.setText(i++, "x", false);
-		return cmd;
-	}
-	
-	public FiscalPacket cmdCancelDocument() {
-		FiscalPacket cmd = createFiscalPacket(CMD_CANCEL_DOCUMENT);
-		return cmd;
-	}
-
-	public FiscalPacket cmdChangeIVAResponsibility(String ivaResponsability) {
-		FiscalPacket cmd = createFiscalPacket(CMD_CHANGE_IVA_RESPONSIBILITY);
-		int i = 1;
-		cmd.setText(i++, ivaResponsability, false);
-		return cmd;
-	}
-
-	public FiscalPacket cmdCloseDNFH(Integer copies) {
-		FiscalPacket cmd = createFiscalPacket(CMD_CLOSE_DNFH);
-		int i = 1;
-		cmd.setNumber(i++, copies, true);
-		return cmd;
-	}
+//	public FiscalPacket cmdBarCode(Integer codeType, String data, boolean printNumbers) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_SET_BAR_CODE);
+//		int i = 1;
+//		cmd.setNumber(i++, codeType, false);
+//		cmd.setText(i++, data, false);
+//		cmd.setBoolean(i++, printNumbers, "N", "x", false);
+//		cmd.setText(i++, "x", false);
+//		return cmd;
+//	}
+//	
+//	public FiscalPacket cmdCancelDocument() {
+//		FiscalPacket cmd = createFiscalPacket(CMD_CANCEL_DOCUMENT);
+//		return cmd;
+//	}
+//
+//	public FiscalPacket cmdChangeIVAResponsibility(String ivaResponsability) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_CHANGE_IVA_RESPONSIBILITY);
+//		int i = 1;
+//		cmd.setText(i++, ivaResponsability, false);
+//		return cmd;
+//	}
+//
+//	public FiscalPacket cmdCloseDNFH(Integer copies) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_CLOSE_DNFH);
+//		int i = 1;
+//		cmd.setNumber(i++, copies, true);
+//		return cmd;
+//	}
 
 	public FiscalPacket cmdCloseFiscalReceipt(Integer copies) {
 		FiscalPacket cmd = createFiscalPacket(CMD_CLOSE_FISCAL_RECEIPT);
@@ -197,96 +198,96 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 		return cmd;
 	}
 
-	public FiscalPacket cmdDoubleWidth() {
-		FiscalPacket cmd = createFiscalPacket(CMD_DOUBLE_WIDTH);
-		return cmd;
-	}	
-	public FiscalPacket cmdSetGeneralConfiguration(boolean printConfigReport, boolean loadDefaultData, BigDecimal finalConsumerLimit, BigDecimal ticketInvoiceLimit, BigDecimal ivaNonInscript, Integer copies, Boolean printChange, Boolean printLabels, String ticketCutType, Boolean printFramework, Boolean reprintDocuments, String balanceText, Boolean paperSound, String paperSize) {
-			FiscalPacket cmd = createFiscalPacket(CMD_SET_GENERAL_CONFIGURATION);
-			int i = 1;
-			cmd.setBoolean(i++, printConfigReport, "P", "x", false);
-			cmd.setBoolean(i++, loadDefaultData, "P", "x", false);
-			cmd.setNumber(i++, finalConsumerLimit, 9, 2, true);
-			cmd.setNumber(i++, ticketInvoiceLimit, 9, 2, true);
-			cmd.setNumber(i++, ivaNonInscript, 2, 2, true);
-			cmd.setNumber(i++, copies, true);
-			cmd.setBoolean(i++, printChange, "P", "x", true);
-			cmd.setBoolean(i++, printLabels, "P", "x", true);
-			cmd.setText(i++, ticketCutType, true);
-			cmd.setBoolean(i++, printFramework, "P", "x", true);
-			cmd.setBoolean(i++, reprintDocuments, "P", "x", true);
-			cmd.setText(i++, balanceText, 80, true);
-			cmd.setBoolean(i++, paperSound, "P", "x", true);
-			cmd.setText(i++, paperSize, true);
-			return cmd;
-	}	
-		
-	public FiscalPacket cmdGeneralDiscount(String description, BigDecimal amount, boolean substract, boolean baseAmount, Integer display) {
-		FiscalPacket cmd = createFiscalPacket(CMD_GENERAL_DISCOUNT);
-		int i = 1;
-		cmd.setText(i++, description, 50, false);
-		cmd.setNumber(i++, amount, 9, 2, false);
-		cmd.setBoolean(i++, substract, "m", "M", false);
-		cmd.setNumber(i++, display, true);
-		cmd.setBoolean(i++, baseAmount, "x", "T", false);
-		return cmd;
-	}
-	
-	public FiscalPacket cmdGetGeneralConfigurationData() {
-		FiscalPacket cmd = createFiscalPacket(CMD_GET_GENERAL_CONFIGURATION);
-		return cmd;
-	}
+//	public FiscalPacket cmdDoubleWidth() {
+//		FiscalPacket cmd = createFiscalPacket(CMD_DOUBLE_WIDTH);
+//		return cmd;
+//	}	
+//	public FiscalPacket cmdSetGeneralConfiguration(boolean printConfigReport, boolean loadDefaultData, BigDecimal finalConsumerLimit, BigDecimal ticketInvoiceLimit, BigDecimal ivaNonInscript, Integer copies, Boolean printChange, Boolean printLabels, String ticketCutType, Boolean printFramework, Boolean reprintDocuments, String balanceText, Boolean paperSound, String paperSize) {
+//			FiscalPacket cmd = createFiscalPacket(CMD_SET_GENERAL_CONFIGURATION);
+//			int i = 1;
+//			cmd.setBoolean(i++, printConfigReport, "P", "x", false);
+//			cmd.setBoolean(i++, loadDefaultData, "P", "x", false);
+//			cmd.setNumber(i++, finalConsumerLimit, 9, 2, true);
+//			cmd.setNumber(i++, ticketInvoiceLimit, 9, 2, true);
+//			cmd.setNumber(i++, ivaNonInscript, 2, 2, true);
+//			cmd.setNumber(i++, copies, true);
+//			cmd.setBoolean(i++, printChange, "P", "x", true);
+//			cmd.setBoolean(i++, printLabels, "P", "x", true);
+//			cmd.setText(i++, ticketCutType, true);
+//			cmd.setBoolean(i++, printFramework, "P", "x", true);
+//			cmd.setBoolean(i++, reprintDocuments, "P", "x", true);
+//			cmd.setText(i++, balanceText, 80, true);
+//			cmd.setBoolean(i++, paperSound, "P", "x", true);
+//			cmd.setText(i++, paperSize, true);
+//			return cmd;
+//	}	
+//		
+//	public FiscalPacket cmdGeneralDiscount(String description, BigDecimal amount, boolean substract, boolean baseAmount, Integer display) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_GENERAL_DISCOUNT);
+//		int i = 1;
+//		cmd.setText(i++, description, 50, false);
+//		cmd.setNumber(i++, amount, 9, 2, false);
+//		cmd.setBoolean(i++, substract, "m", "M", false);
+//		cmd.setNumber(i++, display, true);
+//		cmd.setBoolean(i++, baseAmount, "x", "T", false);
+//		return cmd;
+//	}
+//	
+//	public FiscalPacket cmdGetGeneralConfigurationData() {
+//		FiscalPacket cmd = createFiscalPacket(CMD_GET_GENERAL_CONFIGURATION);
+//		return cmd;
+//	}
 
 	public FiscalPacket cmdGetDateTime() {
 		FiscalPacket cmd = createFiscalPacket(CMD_GET_DATE_TIME);
 		return cmd;
 	}
 
-	public FiscalPacket cmdGetEmbarkNumber(int line) {
-		FiscalPacket cmd = createFiscalPacket(CMD_GET_EMBARK_NUMBER);
-		int i = 1;
-		cmd.setNumber(i++, line, false);
-		return cmd;
-	}
-
-	public FiscalPacket cmdGetFantasyName(int line) {
-		FiscalPacket cmd = createFiscalPacket(CMD_GET_FANTASY_NAME);
-		int i = 1;
-		cmd.setNumber(i++, line, false);
-		return cmd;
-	}
-
-	public FiscalPacket cmdGetHeaderTrailer(int line) {
-		FiscalPacket cmd = createFiscalPacket(CMD_GET_HEADER_TRAILER);
-		int i = 1;
-		cmd.setNumber(i++, line, false);
-		return cmd;
-	}
-
-	public FiscalPacket cmdGetWorkingMemory() {
-		FiscalPacket cmd = createFiscalPacket(CMD_GET_WORKING_MEMORY);
-		return cmd;
-	}
-
-	public FiscalPacket cmdLastItemDiscount(String description, BigDecimal amount, boolean substract, boolean baseAmount, Integer display) {
-		FiscalPacket cmd = createFiscalPacket(CMD_LAST_ITEM_DISCOUNT);
-		int i = 1;
-		cmd.setText(i++, description, 50, false);
-		cmd.setPerceptionAmount(i++, amount, false);
-		cmd.setBoolean(i++, substract, "m", "M", false);
-		cmd.setNumber(i++, display, true);
-		cmd.setBoolean(i++, baseAmount, "x", "T", false);
-		return cmd;
-	}
-
-	public FiscalPacket cmdOpenDNFH(String docType, String identification) {
-		FiscalPacket cmd = createFiscalPacket(CMD_OPEN_DNFH);
-		int i = 1;
-		cmd.setText(i++, docType, false);
-		cmd.setText(i++, "T", true);
-		cmd.setText(i++, identification, true);
-		return cmd;
-	}
+//	public FiscalPacket cmdGetEmbarkNumber(int line) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_GET_EMBARK_NUMBER);
+//		int i = 1;
+//		cmd.setNumber(i++, line, false);
+//		return cmd;
+//	}
+//
+//	public FiscalPacket cmdGetFantasyName(int line) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_GET_FANTASY_NAME);
+//		int i = 1;
+//		cmd.setNumber(i++, line, false);
+//		return cmd;
+//	}
+//
+//	public FiscalPacket cmdGetHeaderTrailer(int line) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_GET_HEADER_TRAILER);
+//		int i = 1;
+//		cmd.setNumber(i++, line, false);
+//		return cmd;
+//	}
+//
+//	public FiscalPacket cmdGetWorkingMemory() {
+//		FiscalPacket cmd = createFiscalPacket(CMD_GET_WORKING_MEMORY);
+//		return cmd;
+//	}
+//
+//	public FiscalPacket cmdLastItemDiscount(String description, BigDecimal amount, boolean substract, boolean baseAmount, Integer display) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_LAST_ITEM_DISCOUNT);
+//		int i = 1;
+//		cmd.setText(i++, description, 50, false);
+//		cmd.setPerceptionAmount(i++, amount, false);
+//		cmd.setBoolean(i++, substract, "m", "M", false);
+//		cmd.setNumber(i++, display, true);
+//		cmd.setBoolean(i++, baseAmount, "x", "T", false);
+//		return cmd;
+//	}
+//
+//	public FiscalPacket cmdOpenDNFH(String docType, String identification) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_OPEN_DNFH);
+//		int i = 1;
+//		cmd.setText(i++, docType, false);
+//		cmd.setText(i++, "T", true);
+//		cmd.setText(i++, identification, true);
+//		return cmd;
+//	}
 
 	public FiscalPacket cmdOpenFiscalReceipt(String docType) {
 		FiscalPacket cmd = createFiscalPacket(CMD_OPEN_FISCAL_RECEIPT);
@@ -301,38 +302,38 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 		return cmd;
 	}
 
-	public FiscalPacket cmdPerceptions(String description, BigDecimal amount, BigDecimal alicuotaIVA) {
-		FiscalPacket cmd = createFiscalPacket(CMD_PERCEPTIONS);
-		int i = 1;
-		if(alicuotaIVA == null)
-			cmd.setText(i++, "**.**", false);
-		else
-			cmd.setNumber(i++, alicuotaIVA, 2, 2, false);
-		cmd.setText(i++, description, 20,false);
-		cmd.setPerceptionAmount(i++, amount, false);
-		return cmd;
-	}
-
-	public FiscalPacket cmdPrintAccountItem(Date date, String docNumber, String description, BigDecimal debitAmount, BigDecimal creditAmount, Integer display) {
-		FiscalPacket cmd = createFiscalPacket(CMD_PRINT_ACCOUNT_ITEM);
-		int i = 1;
-		cmd.setDate(i++, date);
-		cmd.setText(i++, docNumber, 20, false);
-		cmd.setText(i++, description, 60, false);
-		cmd.setNumber(i++, debitAmount, 9, 2, false);
-		cmd.setNumber(i++, creditAmount, 9, 2, false);
-		cmd.setNumber(i++, display, true);
-		return cmd;
-	}
-
-	public FiscalPacket cmdPrintEmbarkItem(String description, BigDecimal quantity, Integer display) {
-		FiscalPacket cmd = createFiscalPacket(CMD_PRINT_EMBARK_ITEM);
-		int i = 1;
-		cmd.setText(i++, description, 108, false);
-		cmd.setQuantity(i++, quantity, false);
-		cmd.setNumber(i++, display, true);
-		return cmd;
-	}
+//	public FiscalPacket cmdPerceptions(String description, BigDecimal amount, BigDecimal alicuotaIVA) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_PERCEPTIONS);
+//		int i = 1;
+//		if(alicuotaIVA == null)
+//			cmd.setText(i++, "**.**", false);
+//		else
+//			cmd.setNumber(i++, alicuotaIVA, 2, 2, false);
+//		cmd.setText(i++, description, 20,false);
+//		cmd.setPerceptionAmount(i++, amount, false);
+//		return cmd;
+//	}
+//
+//	public FiscalPacket cmdPrintAccountItem(Date date, String docNumber, String description, BigDecimal debitAmount, BigDecimal creditAmount, Integer display) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_PRINT_ACCOUNT_ITEM);
+//		int i = 1;
+//		cmd.setDate(i++, date);
+//		cmd.setText(i++, docNumber, 20, false);
+//		cmd.setText(i++, description, 60, false);
+//		cmd.setNumber(i++, debitAmount, 9, 2, false);
+//		cmd.setNumber(i++, creditAmount, 9, 2, false);
+//		cmd.setNumber(i++, display, true);
+//		return cmd;
+//	}
+//
+//	public FiscalPacket cmdPrintEmbarkItem(String description, BigDecimal quantity, Integer display) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_PRINT_EMBARK_ITEM);
+//		int i = 1;
+//		cmd.setText(i++, description, 108, false);
+//		cmd.setQuantity(i++, quantity, false);
+//		cmd.setNumber(i++, display, true);
+//		return cmd;
+//	}
 
 	public FiscalPacket cmdPrintFiscalText(String text, Integer display) {
 		FiscalPacket cmd = createFiscalPacket(CMD_PRINT_FISCAL_TEXT);
@@ -349,7 +350,7 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 		return cmdPrintLineItem(description, quantity, price, ivaPercent, substract, internalTaxes, basePrice, display, maxLength);
 	}
 
-	//Cuspide Computacion: metodo que permite especificar la longitud m√°xima de la descripcion, para los modelos que lo requieran.
+	//Cuspide Computacion: metodo que permite especificar la longitud m·xima de la descripcion, para los modelos que lo requieran.
 	protected FiscalPacket cmdPrintLineItem(String description, BigDecimal quantity, BigDecimal price, BigDecimal ivaPercent, boolean substract, BigDecimal internalTaxes, boolean basePrice, Integer display, int descMaxLength) {
 		FiscalPacket cmd = createFiscalPacket(CMD_PRINT_LINE_ITEM);
 		int i = 1;
@@ -375,47 +376,47 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 		return cmd;
 	}
 
-	public FiscalPacket cmdPrintQuotationItem(String description, Integer display) {
-		FiscalPacket cmd = createFiscalPacket(CMD_PRINT_QUOTATION_ITEM);
-		int i = 1;
-		cmd.setText(i++, description, 120, false);
-		cmd.setNumber(i++, display, true);
-		return cmd;
-	}
-
-	public FiscalPacket cmdReprint() {
-		FiscalPacket cmd = createFiscalPacket(CMD_REPRINT_DOCUMENT);
-		return cmd;
-	}
-
-	public FiscalPacket cmdSendFirstIVA() {
-		FiscalPacket cmd = createFiscalPacket(CMD_SEND_FIRST_IVA);
-		return cmd;
-	}
-	
-	@Override
-	public FiscalPacket cmdNextIVATransmission() {
-		FiscalPacket cmd = createFiscalPacket(CMD_NEXT_TRANSMISSION);
-		return cmd;
-	}
-	
-	public FiscalPacket cmdSetComSpeed(Long speed) {
-		FiscalPacket cmd = createFiscalPacket(CMD_SET_COM_SPEED);
-		int i = 1;
-		cmd.setLong(i++, speed);
-		return cmd;
-	}
-
-	public FiscalPacket cmdSetCustomerData(String name, String customerDocNumber, String ivaResponsibility, String docType, String location) {
-		FiscalPacket cmd = createFiscalPacket(CMD_SET_CUSTOMER_DATA);
-		int i = 1;
-		cmd.setText(i++, name, 50, true);
-		cmd.setText(i++, formatDocNumber(docType,customerDocNumber), true);
-		cmd.setText(i++, ivaResponsibility, false);
-		cmd.setText(i++, docType, true);
-		cmd.setText(i++, location, 50, true);
-		return cmd;
-	}
+//	public FiscalPacket cmdPrintQuotationItem(String description, Integer display) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_PRINT_QUOTATION_ITEM);
+//		int i = 1;
+//		cmd.setText(i++, description, 120, false);
+//		cmd.setNumber(i++, display, true);
+//		return cmd;
+//	}
+//
+//	public FiscalPacket cmdReprint() {
+//		FiscalPacket cmd = createFiscalPacket(CMD_REPRINT_DOCUMENT);
+//		return cmd;
+//	}
+//
+//	public FiscalPacket cmdSendFirstIVA() {
+//		FiscalPacket cmd = createFiscalPacket(CMD_SEND_FIRST_IVA);
+//		return cmd;
+//	}
+//	
+//	@Override
+//	public FiscalPacket cmdNextIVATransmission() {
+//		FiscalPacket cmd = createFiscalPacket(CMD_NEXT_TRANSMISSION);
+//		return cmd;
+//	}
+//	
+//	public FiscalPacket cmdSetComSpeed(Long speed) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_SET_COM_SPEED);
+//		int i = 1;
+//		cmd.setLong(i++, speed);
+//		return cmd;
+//	}
+//
+//	public FiscalPacket cmdSetCustomerData(String name, String customerDocNumber, String ivaResponsibility, String docType, String location) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_SET_CUSTOMER_DATA);
+//		int i = 1;
+//		cmd.setText(i++, name, 50, true);
+//		cmd.setText(i++, formatDocNumber(docType,customerDocNumber), true);
+//		cmd.setText(i++, ivaResponsibility, false);
+//		cmd.setText(i++, docType, true);
+//		cmd.setText(i++, location, 50, true);
+//		return cmd;
+//	}
 
 	public FiscalPacket cmdSetDateTime(Date dateTime) {
 		FiscalPacket cmd = createFiscalPacket(CMD_SET_DATE_TIME);
@@ -423,88 +424,91 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 		return cmd;
 	}
 
-	public FiscalPacket cmdSetEmbarkNumber(int line, String text) {
-		FiscalPacket cmd = createFiscalPacket(CMD_SET_EMBARK_NUMBER);
-		int i = 1;
-		cmd.setNumber(i++, line, false);
-		cmd.setText(i++, text, 20, false);
-		return cmd;
-	}
-
-	public FiscalPacket cmdSetFantasyName(int line, String text) {
-		FiscalPacket cmd = createFiscalPacket(CMD_SET_FANTASY_NAME);
-		int i = 1;
-		cmd.setNumber(i++, line, false);
-		cmd.setText(i++, text, 50, false);
-		return cmd;
-	}
-
-	public FiscalPacket cmdSetHeaderTrailer(int line, String text) {
-		FiscalPacket cmd = createFiscalPacket(CMD_SET_HEADER_TRAILER);
-		int i = 1;
-		cmd.setNumber(i++, line, false);
-		cmd.setText(i++, text, 120, false);
-		return cmd;
-	}
-
-	public FiscalPacket cmdSTATPRN() {
-		FiscalPacket cmd = createFiscalPacket(CMD_STATPRN);
-		return cmd;
-	}
+//	public FiscalPacket cmdSetEmbarkNumber(int line, String text) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_SET_EMBARK_NUMBER);
+//		int i = 1;
+//		cmd.setNumber(i++, line, false);
+//		cmd.setText(i++, text, 20, false);
+//		return cmd;
+//	}
+//
+//	public FiscalPacket cmdSetFantasyName(int line, String text) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_SET_FANTASY_NAME);
+//		int i = 1;
+//		cmd.setNumber(i++, line, false);
+//		cmd.setText(i++, text, 50, false);
+//		return cmd;
+//	}
+//
+//	public FiscalPacket cmdSetHeaderTrailer(int line, String text) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_SET_HEADER_TRAILER);
+//		int i = 1;
+//		cmd.setNumber(i++, line, false);
+//		cmd.setText(i++, text, 120, false);
+//		return cmd;
+//	}
+//
+//	public FiscalPacket cmdSTATPRN() {
+//		FiscalPacket cmd = createFiscalPacket(CMD_STATPRN);
+//		return cmd;
+//	}
 
 	public FiscalPacket cmdStatusRequest() {
 		FiscalPacket cmd = createFiscalPacket(CMD_STATUS_REQUEST);
 		return cmd;
 	}
 
+	/** Impresion del subtotal :Si se envia 'P'(0x50)se imprimira el Subtotal.
+    Si se envia 'N'(0x4E)no se imprimira el Subtotal(Solo se retornara la informacion a la PC
+    en este caso) */	
 	public FiscalPacket cmdSubtotal(boolean print, Integer display) {
 		FiscalPacket cmd = createFiscalPacket(CMD_SUBTOTAL);
 		int i = 1;
-		cmd.setBoolean(i++, print, "P", "x", false);
-		cmd.setString(i++, "x");
+		cmd.setBoolean(i++, print, "P", "N", false);
+		cmd.setString(i++, "N");
 		cmd.setNumber(i++, display, true);
 		return cmd;
 	}
 
-	public FiscalPacket cmdTotalTender(String description, BigDecimal amount, boolean cancel, Integer display) {
-		FiscalPacket cmd = createFiscalPacket(CMD_TOTAL_TENDER);
-		int i = 1;
-		cmd.setText(i++, description, 80, false);
-		cmd.setNumber(i++, amount, 9, 2, false);
-		cmd.setBoolean(i++, cancel, "C", "T");
-		cmd.setNumber(i++, display, true);
-		return cmd;
-	}
+//	public FiscalPacket cmdTotalTender(String description, BigDecimal amount, boolean cancel, Integer display) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_TOTAL_TENDER);
+//		int i = 1;
+//		cmd.setText(i++, description, 80, false);
+//		cmd.setNumber(i++, amount, 9, 2, false);
+//		cmd.setBoolean(i++, cancel, "C", "T");
+//		cmd.setNumber(i++, display, true);
+//		return cmd;
+//	}
 	
-	/**muestra error porque en EpsonCommands falta el metodo cmdReturnRecharge **/
-	@Override
-	public FiscalPacket cmdReturnRecharge(String description,
-			BigDecimal amount, BigDecimal ivaPercent, boolean subtract,
-			BigDecimal internalTaxes, boolean baseAmount, Integer display, String operation) {
-		int descMaxLength = 50;
-		return cmdReturnRecharge(description, amount, ivaPercent, subtract,
-				internalTaxes, baseAmount, display, operation, descMaxLength);
-	}
+//	/**muestra error porque en EpsonCommands falta el metodo cmdReturnRecharge **/
+//	@Override
+//	public FiscalPacket cmdReturnRecharge(String description,
+//			BigDecimal amount, BigDecimal ivaPercent, boolean subtract,
+//			BigDecimal internalTaxes, boolean baseAmount, Integer display, String operation) {
+//		int descMaxLength = 50;
+//		return cmdReturnRecharge(description, amount, ivaPercent, subtract,
+//				internalTaxes, baseAmount, display, operation, descMaxLength);
+//	}
 	
-	protected FiscalPacket cmdReturnRecharge(String description,
-			BigDecimal amount, BigDecimal ivaPercent, boolean subtract,
-			BigDecimal internalTaxes, boolean baseAmount, Integer display,
-			String operation, int descMaxLength) {
-		FiscalPacket cmd = createFiscalPacket(CMD_RETURN_RECHARGE);
-		int i = 1;
-		cmd.setText(i++, description, descMaxLength, false);
-		cmd.setNumber(i++, amount, 9, 2, false);
-		if(ivaPercent == null){
-			ivaPercent = BigDecimal.ZERO;
-		}
-		cmd.setNumber(i++, ivaPercent, 2, 2, false);
-		cmd.setBoolean(i++, subtract, "m", "M", false);
-		cmd.setNumber(i++, internalTaxes, 6, 8, false);
-		cmd.setNumber(i++, display, true);
-		cmd.setBoolean(i++, baseAmount, "x", "T", false);
-		cmd.setText(i++, operation, false);
-		return cmd;
-	}
+//	protected FiscalPacket cmdReturnRecharge(String description,
+//			BigDecimal amount, BigDecimal ivaPercent, boolean subtract,
+//			BigDecimal internalTaxes, boolean baseAmount, Integer display,
+//			String operation, int descMaxLength) {
+//		FiscalPacket cmd = createFiscalPacket(CMD_RETURN_RECHARGE);
+//		int i = 1;
+//		cmd.setText(i++, description, descMaxLength, false);
+//		cmd.setNumber(i++, amount, 9, 2, false);
+//		if(ivaPercent == null){
+//			ivaPercent = BigDecimal.ZERO;
+//		}
+//		cmd.setNumber(i++, ivaPercent, 2, 2, false);
+//		cmd.setBoolean(i++, subtract, "m", "M", false);
+//		cmd.setNumber(i++, internalTaxes, 6, 8, false);
+//		cmd.setNumber(i++, display, true);
+//		cmd.setBoolean(i++, baseAmount, "x", "T", false);
+//		cmd.setText(i++, operation, false);
+//		return cmd;
+//	}
 	
 	protected FiscalPacket createFiscalPacket() {
 		return new EpsonFiscalPacket(getEncoding(),getBaseRolloverYear(), this);
@@ -568,7 +572,7 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
         }
 
 		// Si la impresora quedÛ en estado de error entonces se lanza una
-		// excepci√Ûn.
+		// excepciÛn.
         if (getMessages().hasErrors()) {
             throw new FiscalPrinterStatusError(command, response, getMessages());
         }
@@ -613,17 +617,17 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 		}
 
 		// Se chequea el estado de la impresora.
-		for(int i = 0; i < getPrinterStatusCodes().length; i++) {
-			int statusCode = getPrinterStatusCodes()[i];
-			if((getPrinterStatus() & statusCode) != 0) {
-				FiscalMessage msg = getPrinterStatusMsgs().get(statusCode);
-				msgs.add(msg);
-			}
-			// Se chequea el estado del papel de la impresora y se
-			// setea el mismo.
-			if(statusCode == PST_JOURNAL_PAPER_OUT || statusCode == PST_TICKET_PAPER_OUT)
-				setWithoutPaper((getPrinterStatus() & statusCode) != 0);
-		}
+//		for(int i = 0; i < getPrinterStatusCodes().length; i++) {
+//			int statusCode = getPrinterStatusCodes()[i];
+//			if((getPrinterStatus() & statusCode) != 0) {
+//				FiscalMessage msg = getPrinterStatusMsgs().get(statusCode);
+//				msgs.add(msg);
+//			}
+//			// Se chequea el estado del papel de la impresora y se
+//			// setea el mismo.
+//			if(statusCode == PST_JOURNAL_PAPER_OUT || statusCode == PST_TICKET_PAPER_OUT)
+//				setWithoutPaper((getPrinterStatus() & statusCode) != 0);
+//		}
 
 		// Se setean los mensajes de la impresora.
 		setMessages(msgs);
@@ -662,29 +666,29 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 	/**
 	 * @return Returns the fiscalStatusMsgs.
 	 */
-	protected Map<Integer, FiscalMessage> getFiscalStatusMsgs() {
-		if(fiscalStatusMsgs == null) {
-			fiscalStatusMsgs = new HashMap<Integer,FiscalMessage>();
-			Map<Integer,FiscalMessage> st = fiscalStatusMsgs; // Short Alias.
-
-			// Se cargan los mensajes de estado fiscal.
-			st.put(FST_FISCAL_MEMORY_CRC_ERROR,   MsgRepository.getFiscalMsg(FST_FISCAL_MEMORY_CRC_ERROR, "FstFiscalMemoryCrcErrorTitle","FstFiscalMemoryCrcErrorDesc", true));
-			st.put(FST_WORKING_MEMORY_CRC_ERROR,  MsgRepository.getFiscalMsg(FST_WORKING_MEMORY_CRC_ERROR, "FstWorkingMemoryCrcErrorTitle","FstWorkingMemoryCrcErrorDesc", true));
-			st.put(FST_UNKNOWN_COMMAND,           MsgRepository.getFiscalMsg(FST_UNKNOWN_COMMAND,"FstUnknownCommandTitle","FstUnknownCommandDesc",true));
-			st.put(FST_INVALID_DATA_FIELD,        MsgRepository.getFiscalMsg(FST_INVALID_DATA_FIELD,"FstInvalidDataFieldTitle","FstInvalidDataFieldDesc",true));
-			st.put(FST_INVALID_COMMAND,           MsgRepository.getFiscalMsg(FST_INVALID_COMMAND, "FstInvalidCommandTitle", "FstInvalidCommandDesc", true));
-			st.put(FST_ACCUMULATOR_OVERFLOW,      MsgRepository.getFiscalMsg(FST_ACCUMULATOR_OVERFLOW, "FstAccumulatorOverflowTitle", "FstAccumulatorOverflowDesc", true));
-			st.put(FST_FISCAL_MEMORY_FULL,        MsgRepository.getFiscalMsg(FST_FISCAL_MEMORY_FULL,"FstFiscalMemoryFullTitle", "FstFiscalMemoryFullDesc", true));
-			st.put(FST_FISCAL_MEMORY_ALMOST_FULL, MsgRepository.getFiscalMsg(FST_FISCAL_MEMORY_ALMOST_FULL,"FstFiscalMemoryAlmostFullTitle", "FstFiscalMemoryAlmostFullDesc", true));
-			st.put(FST_DEVICE_CERTIFIED,          MsgRepository.getFiscalMsg(FST_DEVICE_CERTIFIED, "FstDeviceCertifiedTitle", "FstDeviceCertifiedDesc", false));
-			st.put(FST_DEVICE_FISCALIZED,         MsgRepository.getFiscalMsg(FST_DEVICE_FISCALIZED,"FstDeviceFiscalizedTitle", "FstDeviceFiscalizedDesc", false));
-			st.put(FST_DATE_ERROR,                MsgRepository.getFiscalMsg(FST_DATE_ERROR, "FstDateErrorTitle", "FstDateErrorDesc", true));
-			st.put(FST_FISCAL_DOCUMENT_OPEN,      MsgRepository.getFiscalMsg(FST_FISCAL_DOCUMENT_OPEN, "FstFiscalDocumentOpenTitle", "FstFiscalDocumentOpenDesc", false));
-			st.put(FST_DOCUMENT_OPEN,             MsgRepository.getFiscalMsg(FST_DOCUMENT_OPEN, "FstDocumentOpenTitle", "FstDocumentOpenDesc", false));
-			st.put(FST_STATPRN_ACTIVE,            MsgRepository.getFiscalMsg(FST_STATPRN_ACTIVE, "FstSTATPRNActiveTitle", "FstSTATPRNActiveDesc", true));
-		}
-		return fiscalStatusMsgs;
-	}
+//	protected Map<Integer, FiscalMessage> getFiscalStatusMsgs() {
+//		if(fiscalStatusMsgs == null) {
+//			fiscalStatusMsgs = new HashMap<Integer,FiscalMessage>();
+//			Map<Integer,FiscalMessage> st = fiscalStatusMsgs; // Short Alias.
+//
+//			// Se cargan los mensajes de estado fiscal.
+//			st.put(FST_FISCAL_MEMORY_CRC_ERROR,   MsgRepository.getFiscalMsg(FST_FISCAL_MEMORY_CRC_ERROR, "FstFiscalMemoryCrcErrorTitle","FstFiscalMemoryCrcErrorDesc", true));
+//			st.put(FST_WORKING_MEMORY_CRC_ERROR,  MsgRepository.getFiscalMsg(FST_WORKING_MEMORY_CRC_ERROR, "FstWorkingMemoryCrcErrorTitle","FstWorkingMemoryCrcErrorDesc", true));
+//			st.put(FST_UNKNOWN_COMMAND,           MsgRepository.getFiscalMsg(FST_UNKNOWN_COMMAND,"FstUnknownCommandTitle","FstUnknownCommandDesc",true));
+//			st.put(FST_INVALID_DATA_FIELD,        MsgRepository.getFiscalMsg(FST_INVALID_DATA_FIELD,"FstInvalidDataFieldTitle","FstInvalidDataFieldDesc",true));
+//			st.put(FST_INVALID_COMMAND,           MsgRepository.getFiscalMsg(FST_INVALID_COMMAND, "FstInvalidCommandTitle", "FstInvalidCommandDesc", true));
+//			st.put(FST_ACCUMULATOR_OVERFLOW,      MsgRepository.getFiscalMsg(FST_ACCUMULATOR_OVERFLOW, "FstAccumulatorOverflowTitle", "FstAccumulatorOverflowDesc", true));
+//			st.put(FST_FISCAL_MEMORY_FULL,        MsgRepository.getFiscalMsg(FST_FISCAL_MEMORY_FULL,"FstFiscalMemoryFullTitle", "FstFiscalMemoryFullDesc", true));
+//			st.put(FST_FISCAL_MEMORY_ALMOST_FULL, MsgRepository.getFiscalMsg(FST_FISCAL_MEMORY_ALMOST_FULL,"FstFiscalMemoryAlmostFullTitle", "FstFiscalMemoryAlmostFullDesc", true));
+//			st.put(FST_DEVICE_CERTIFIED,          MsgRepository.getFiscalMsg(FST_DEVICE_CERTIFIED, "FstDeviceCertifiedTitle", "FstDeviceCertifiedDesc", false));
+//			st.put(FST_DEVICE_FISCALIZED,         MsgRepository.getFiscalMsg(FST_DEVICE_FISCALIZED,"FstDeviceFiscalizedTitle", "FstDeviceFiscalizedDesc", false));
+//			st.put(FST_DATE_ERROR,                MsgRepository.getFiscalMsg(FST_DATE_ERROR, "FstDateErrorTitle", "FstDateErrorDesc", true));
+//			st.put(FST_FISCAL_DOCUMENT_OPEN,      MsgRepository.getFiscalMsg(FST_FISCAL_DOCUMENT_OPEN, "FstFiscalDocumentOpenTitle", "FstFiscalDocumentOpenDesc", false));
+//			st.put(FST_DOCUMENT_OPEN,             MsgRepository.getFiscalMsg(FST_DOCUMENT_OPEN, "FstDocumentOpenTitle", "FstDocumentOpenDesc", false));
+//			st.put(FST_STATPRN_ACTIVE,            MsgRepository.getFiscalMsg(FST_STATPRN_ACTIVE, "FstSTATPRNActiveTitle", "FstSTATPRNActiveDesc", true));
+//		}
+//		return fiscalStatusMsgs;
+//	}
 
 	/**
 	 * @return Returns the printerStatusMsgs.
