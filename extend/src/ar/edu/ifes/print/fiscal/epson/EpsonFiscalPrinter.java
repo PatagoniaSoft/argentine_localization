@@ -1109,15 +1109,15 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 	 * En caso positivo, se indica que la impresora no contiene un
 	 * documento abierto.
 	 */
-	protected void cancelCurrentDocument() {
-		if(isCancelAllowed())
-			try {
-				execute(cmdCancelDocument());
-				setDocumentOpened(false);
-			} catch (FiscalPrinterIOException e) {
-				// Do nothing
-			}
-	}
+//	protected void cancelCurrentDocument() {
+//		if(isCancelAllowed())
+//			try {
+//				execute(cmdCancelDocument());
+//				setDocumentOpened(false);
+//			} catch (FiscalPrinterIOException e) {
+//				// Do nothing
+//			}
+//	}
 
 	/**
 	 * Obtiene el número del CAI de la respuesta al comando CloseFiscalReceipt.
