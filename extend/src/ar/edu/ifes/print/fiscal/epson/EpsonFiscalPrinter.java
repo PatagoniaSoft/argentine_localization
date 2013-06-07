@@ -119,10 +119,9 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 	private Map<Integer,FiscalMessage> printerStatusMsgs;
 	/** Posibles mensajes de estado del controlador fiscal */
 	private Map<Integer,FiscalMessage> fiscalStatusMsgs;
-	/** C�digos de mensajes de estado de la impresora *///*faltan las conStantes
-	private int[] printerStatusCodes = { PST_PRINTER_BUSY, PST_PRINTER_ERROR, PST_PRINTER_OFFLINE,
-										 PST_JOURNAL_PAPER_OUT, PST_TICKET_PAPER_OUT, PST_PRINT_BUFFER_FULL,
-										 PST_PRINT_BUFFER_EMPTY, PST_PRINTER_COVER_OPEN, PST_MONEY_DRAWER_CLOSED
+	/** C�digos de mensajes de estado de la impresora */
+	private int[] printerStatusCodes = { PST_PRINTER_ERROR, PST_PRINTER_OFFLINE,PST_PRINT_BUFFER_FULL,
+										 PST_PRINT_BUFFER_EMPTY
 										};
 	
 	
@@ -562,14 +561,14 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 		}
 
 		// Se chequea el status devuelto por la impresora.
-		boolean statusChanged = checkStatus(response);
+//		boolean statusChanged = checkStatus(response);
 		
 		
 		// Si se produjeron cambios en el estado de la impresora se dispara
 		// el evento correspondiente.
-        if (statusChanged) {
-            fireStatusChanged(command, response);
-        }
+//        if (statusChanged) {
+//            fireStatusChanged(command, response);
+//        }
 
 		// Si la impresora qued� en estado de error entonces se lanza una
 		// excepci�n.
@@ -583,29 +582,29 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 		return response;
 	}
 	
-	private boolean checkStatus(FiscalPacket response) throws FiscalPrinterIOException {
-		int newPrinterStatus;
-		int newFiscalStatus;
-
-		try {
-			// Se obtiene los estados a partir de la respuesta.
-			newPrinterStatus = response.getPrinterStatus();
-			newFiscalStatus = response.getFiscalStatus();
-		} catch (Exception e) {
-			// Se puede producir un error de formato al querer obtener los estados
-			// de la respuesta. Puede suceder que solo se reciba una parte de la
-			// respuesta.
-			throw new FiscalPrinterIOException(MsgRepository.get("ResponseFormatError"), getLastRequest(), response);
-		}
-
-		// Se comprueba si el status fue modificado.
-		boolean stsChanged = getPrinterStatus() != newPrinterStatus ||
-							 getFiscalStatus() != newFiscalStatus;
-
-		// Se asignan los estados de impresora y controlador fiscal.
-		setPrinterStatus(newPrinterStatus);
-		setFiscalStatus(newFiscalStatus);
-
+//	private boolean checkStatus(FiscalPacket response) throws FiscalPrinterIOException {
+//		int newPrinterStatus;
+//		int newFiscalStatus;
+//
+//		try {
+//			// Se obtiene los estados a partir de la respuesta.
+//			newPrinterStatus = response.getPrinterStatus();
+//			newFiscalStatus = response.getFiscalStatus();
+//		} catch (Exception e) {
+//			// Se puede producir un error de formato al querer obtener los estados
+//			// de la respuesta. Puede suceder que solo se reciba una parte de la
+//			// respuesta.
+//			throw new FiscalPrinterIOException(MsgRepository.get("ResponseFormatError"), getLastRequest(), response);
+//		}
+//
+//		// Se comprueba si el status fue modificado.
+//		boolean stsChanged = getPrinterStatus() != newPrinterStatus ||
+//							 getFiscalStatus() != newFiscalStatus;
+//
+//		// Se asignan los estados de impresora y controlador fiscal.
+//		setPrinterStatus(newPrinterStatus);
+//		setFiscalStatus(newFiscalStatus);
+	
 //		FiscalMessages msgs = new FiscalMessages();
 //		// Se chequea el estado del controlador fiscal.
 //		for(int i = 0; i < getFiscalStatusCodes().length; i++) {
@@ -614,7 +613,7 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 //				FiscalMessage msg = getFiscalStatusMsgs().get(statusCode);
 //				msgs.add(msg);
 //			}
-		}
+//		}
 
 		// Se chequea el estado de la impresora.
 //		for(int i = 0; i < getPrinterStatusCodes().length; i++) {
@@ -630,10 +629,10 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 //		}
 
 		// Se setean los mensajes de la impresora.
-		setMessages(msgs);
+//		setMessages(msgs);
 
-		return stsChanged;
-	}
+//		return stsChanged;
+//	}
 
 	/**
 	 * @return Returns the fiscalStatus.
@@ -699,15 +698,15 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 			Map<Integer,FiscalMessage> st = printerStatusMsgs; // Short Alias.
 
 			// Se cargan los mensajes de estado de la impresora.
-			st.put(PST_PRINTER_BUSY,        MsgRepository.getFiscalMsg(PST_PRINTER_BUSY, "PstPrinterBusyTitle", "PstPrinterBusyDesc", false));
+//			st.put(PST_PRINTER_BUSY,        MsgRepository.getFiscalMsg(PST_PRINTER_BUSY, "PstPrinterBusyTitle", "PstPrinterBusyDesc", false));
 			st.put(PST_PRINTER_ERROR,       MsgRepository.getFiscalMsg(PST_PRINTER_ERROR, "PstPrinterErrorTitle", "PstPrinterErrorDesc", true));
 			st.put(PST_PRINTER_OFFLINE,     MsgRepository.getFiscalMsg(PST_PRINTER_OFFLINE, "PstPrinterOfflineTitle", "PstPrinterOfflineDesc", true));
-			st.put(PST_JOURNAL_PAPER_OUT,   MsgRepository.getFiscalMsg(PST_JOURNAL_PAPER_OUT, "PstJournalPaperOutTitle", "PstJournalPaperOutDesc", true));
-			st.put(PST_TICKET_PAPER_OUT,    MsgRepository.getFiscalMsg(PST_TICKET_PAPER_OUT, "PstTicketPaperOutTitle", "PstTicketPaperOutDesc", true));
+//			st.put(PST_JOURNAL_PAPER_OUT,   MsgRepository.getFiscalMsg(PST_JOURNAL_PAPER_OUT, "PstJournalPaperOutTitle", "PstJournalPaperOutDesc", true));
+//			st.put(PST_TICKET_PAPER_OUT,    MsgRepository.getFiscalMsg(PST_TICKET_PAPER_OUT, "PstTicketPaperOutTitle", "PstTicketPaperOutDesc", true));
 			st.put(PST_PRINT_BUFFER_FULL,   MsgRepository.getFiscalMsg(PST_PRINT_BUFFER_FULL, "PstPrintBufferFullTitle", "PstPrintBufferFullDesc", false));
 			st.put(PST_PRINT_BUFFER_EMPTY,  MsgRepository.getFiscalMsg(PST_PRINT_BUFFER_EMPTY, "PstPrintBufferEmptyTitle", "PstPrintBufferEmptyDesc", false));
-			st.put(PST_PRINTER_COVER_OPEN,  MsgRepository.getFiscalMsg(PST_PRINTER_COVER_OPEN, "PstPrinterCoverOpenTitle", "PstPrinterCoverOpenDesc", true));
-			st.put(PST_MONEY_DRAWER_CLOSED, MsgRepository.getFiscalMsg(PST_MONEY_DRAWER_CLOSED, "PstMoneyDrawerClosedTitle", "PstMoneyDrawerClosedDesc", false));
+//			st.put(PST_PRINTER_COVER_OPEN,  MsgRepository.getFiscalMsg(PST_PRINTER_COVER_OPEN, "PstPrinterCoverOpenTitle", "PstPrinterCoverOpenDesc", true));
+//			st.put(PST_MONEY_DRAWER_CLOSED, MsgRepository.getFiscalMsg(PST_MONEY_DRAWER_CLOSED, "PstMoneyDrawerClosedTitle", "PstMoneyDrawerClosedDesc", false));
 		}
 		return printerStatusMsgs;
 	}
@@ -715,9 +714,9 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 	/**
 	 * @return Returns the fiscalStatusCodes.
 	 */
-	protected int[] getFiscalStatusCodes() {
-		return fiscalStatusCodes;
-	}
+//	protected int[] getFiscalStatusCodes() {
+//		return fiscalStatusCodes;
+//	}
 
 	/**
 	 * @return Returns the printerStatusCodes.
@@ -736,15 +735,15 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 			//////////////////////////////////////////////////////////////
 			// Se setean los datos del comprador.
 			// Comando: @SetCustomerData
-			loadCustomerData(customer);
+//			loadCustomerData(customer);
 
 			//////////////////////////////////////////////////////////////
 			// Se carga el número de remito asignado a la factura
 			// en caso de existir.
 			// Comando: @SetEmbarkNumber
-			if(invoice.hasPackingSlipNumber()) {
-				execute(cmdSetEmbarkNumber(1, invoice.getPackingSlipNumber()));
-			}
+//			if(invoice.hasPackingSlipNumber()) {
+//				execute(cmdSetEmbarkNumber(1, invoice.getPackingSlipNumber()));
+//			}
 			//////////////////////////////////////////////////////////////
 			// Se abre el documento fiscal.
 			// Comando: @OpenFiscalReceipt
@@ -772,7 +771,7 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 
             //////////////////////////////////////////////////////////////
             // load invoice perception
-            loadDocumentPerception(invoice);
+//            loadDocumentPerception(invoice);
 
 			//////////////////////////////////////////////////////////////
 			// Se calcula el subtotal.
@@ -782,10 +781,10 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 			//////////////////////////////////////////////////////////////
 			// Se ingresan los pagos realizados por el comprador.
 			// Comando: @TotalTender
-			for (Payment payment : invoice.getPayments()) {
-                execute(cmdTotalTender(payment.getDescription(), payment.getAmount(), false, null));
-				setCancelAllowed(false);
-			}
+//			for (Payment payment : invoice.getPayments()) {
+//                execute(cmdTotalTender(payment.getDescription(), payment.getAmount(), false, null));
+//				setCancelAllowed(false);
+//			}
 
 			//////////////////////////////////////////////////////////////
 			// Se cierra el comprobante fiscal.
@@ -793,7 +792,7 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 			response = execute(cmdCloseFiscalReceipt(null));
 			setDocumentOpened(false);
 			// Chequeo de impuestos
-			checkTaxes(invoice);
+//			checkTaxes(invoice);
 
 			// Se obtiene el número de comprobante emitido.
 			setLastDocumentNo(response.getString(3));
@@ -808,7 +807,7 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 		} catch (FiscalPrinterIOException e) {
 			// Si ocurrió algún error se intenta cancelar el documento
 			// actual y se relanza la excepción.
-			cancelCurrentDocument();
+//			cancelCurrentDocument();
 			throw e;
 		}
 	}
@@ -817,69 +816,69 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 		execute(cmdDailyClose(closeType));
 	}
 
-	public void printDocument(CreditNote creditNote) throws FiscalPrinterStatusError, FiscalPrinterIOException, DocumentException {
-		Customer customer = creditNote.getCustomer();
-		FiscalPacket response;
-		// Se valida la nota de crédito.
-		creditNote.validate();
-		try {
-			setCancelAllowed(false);
-			//////////////////////////////////////////////////////////////
-			// Se setea el número de comprobante original.
-			// Comando: @SetEmbarkNumber
-			execute(cmdSetEmbarkNumber(
-				1, creditNote.getOriginalDocumentNo())
-			);
-
-			//////////////////////////////////////////////////////////////
-			// Se setean los datos del comprador.
-			// Comando: @SetCustomerData
-			loadCustomerData(customer);
-
-			//////////////////////////////////////////////////////////////
-			// Se abre un documento no fiscal homologado.
-			// Comando: @OpenDNFH
-			execute(cmdOpenDNFH(
-				traduceDocumentType(Document.DT_CREDIT_NOTE, creditNote.getLetter()),
-				"x"
-			));
-			setLastDocumentNo("");
-			setCancelAllowed(true);
-			setDocumentOpened(true);
-
-			//////////////////////////////////////////////////////////////
-			// Se cargan las observaciones de la nota de crédito
-			// como texto fiscal.
-			// Comando: @PrintFiscalText
-			for (String observation : creditNote.getObservations()) {
-				execute(cmdPrintFiscalText(observation,null));
-			}
-
-			//////////////////////////////////////////////////////////////
-			// Se cargan los ítems de la nota de crédito.
-			// Comando: @PrintLineItem
-			loadDocumentLineItems(creditNote);
-
-			//////////////////////////////////////////////////////////////
-			// Se cierra el comprobante no fiscal homologado.
-			// Comando: @CloseDNFH
-			response = execute(cmdCloseDNFH(null));
-			setDocumentOpened(false);
-			setCancelAllowed(false);
-			// Se obtiene el número de la nota de crédito emitida.
-			setLastDocumentNo(response.getString(3));
-			creditNote.setDocumentNo(getLastDocumentNo());
-
-			// Se indica al manejador de eventos que la impresión ha finalizado.
-			firePrintEnded();
-
-		} catch (FiscalPrinterIOException e) {
-			// Si ocurrió algún error se intenta cancelar el documento
-			// actual y se relanza la excepción.
-			cancelCurrentDocument();
-			throw e;
-		}
-	}
+//	public void printDocument(CreditNote creditNote) throws FiscalPrinterStatusError, FiscalPrinterIOException, DocumentException {
+//		Customer customer = creditNote.getCustomer();
+//		FiscalPacket response;
+//		// Se valida la nota de crédito.
+//		creditNote.validate();
+//		try {
+//			setCancelAllowed(false);
+//			//////////////////////////////////////////////////////////////
+//			// Se setea el número de comprobante original.
+//			// Comando: @SetEmbarkNumber
+//			execute(cmdSetEmbarkNumber(
+//				1, creditNote.getOriginalDocumentNo())
+//			);
+//
+//			//////////////////////////////////////////////////////////////
+//			// Se setean los datos del comprador.
+//			// Comando: @SetCustomerData
+//			loadCustomerData(customer);
+//
+//			//////////////////////////////////////////////////////////////
+//			// Se abre un documento no fiscal homologado.
+//			// Comando: @OpenDNFH
+//			execute(cmdOpenDNFH(
+//				traduceDocumentType(Document.DT_CREDIT_NOTE, creditNote.getLetter()),
+//				"x"
+//			));
+//			setLastDocumentNo("");
+//			setCancelAllowed(true);
+//			setDocumentOpened(true);
+//
+//			//////////////////////////////////////////////////////////////
+//			// Se cargan las observaciones de la nota de crédito
+//			// como texto fiscal.
+//			// Comando: @PrintFiscalText
+//			for (String observation : creditNote.getObservations()) {
+//				execute(cmdPrintFiscalText(observation,null));
+//			}
+//
+//			//////////////////////////////////////////////////////////////
+//			// Se cargan los ítems de la nota de crédito.
+//			// Comando: @PrintLineItem
+//			loadDocumentLineItems(creditNote);
+//
+//			//////////////////////////////////////////////////////////////
+//			// Se cierra el comprobante no fiscal homologado.
+//			// Comando: @CloseDNFH
+//			response = execute(cmdCloseDNFH(null));
+//			setDocumentOpened(false);
+//			setCancelAllowed(false);
+//			// Se obtiene el número de la nota de crédito emitida.
+//			setLastDocumentNo(response.getString(3));
+//			creditNote.setDocumentNo(getLastDocumentNo());
+//
+//			// Se indica al manejador de eventos que la impresión ha finalizado.
+//			firePrintEnded();
+//
+//		} catch (FiscalPrinterIOException e) {
+//			// Si ocurrió algún error se intenta cancelar el documento
+//			// actual y se relanza la excepción.
+//			cancelCurrentDocument();
+//			throw e;
+//		}
+//	}
 
 	public void printDocument(DebitNote debitNote) throws FiscalPrinterStatusError, FiscalPrinterIOException, DocumentException {
 		Customer customer = debitNote.getCustomer();
@@ -891,14 +890,14 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 			//////////////////////////////////////////////////////////////
 			// Se setean los datos del comprador.
 			// Comando: @SetCustomerData
-			loadCustomerData(customer);
+//			loadCustomerData(customer);
 
 			//////////////////////////////////////////////////////////////
 			// Se carga el número de remito asignado a la nota de débito
 			// en caso de existir.
 			// Comando: @SetEmbarkNumber
-			if(debitNote.hasPackingSlipNumber())
-				execute(cmdSetEmbarkNumber(1, debitNote.getPackingSlipNumber()));
+//			if(debitNote.hasPackingSlipNumber())
+//				execute(cmdSetEmbarkNumber(1, debitNote.getPackingSlipNumber()));
 
 			//////////////////////////////////////////////////////////////
 			// Se abre el documento fiscal.
@@ -941,7 +940,7 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 		} catch (FiscalPrinterIOException e) {
 			// Si ocurrió algún error se intenta cancelar el documento
 			// actual y se relanza la excepción.
-			cancelCurrentDocument();
+//			cancelCurrentDocument();
 			throw e;
 		}
 	}
@@ -981,7 +980,7 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 		} catch (FiscalPrinterIOException e) {
 			// Si ocurrió algún error se intenta cancelar el documento
 			// actual y se relanza la excepción.
-			cancelCurrentDocument();
+//			cancelCurrentDocument();
 			throw e;
 		}
 	}
@@ -1133,32 +1132,32 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 	 * 	Ejecuta el comando para asignar los datos del comprador en caso
 	 *	de que el comprador exista.
 	 */
-	protected FiscalPacket loadCustomerData(final Customer customer) throws FiscalPrinterStatusError, FiscalPrinterIOException {
-		FiscalPacket response = null;
-		if(customer != null) {
-			// Según el manual de las impresoras HASAR, en este comando, si
-			// el cliente es Consumidor Final y le monto no supera el máximo
-			// los campos Nombre, DNI y Dirección son opcionales. Parece que la
-			// impresora no contempla esto y pide los valores de los campos
-			// de todos modos. Por esto, si es consumido final se reemplazan
-			// nulls en los campos por un String espacio " ".
-			if(customer.getIvaResponsibility() == Customer.CONSUMIDOR_FINAL) {
-				customer.setName(customer.getName() == null?" ":customer.getName());
-				customer.setLocation(customer.getLocation() == null?" ":customer.getLocation());
-				customer.setIdentificationNumber(customer
-						.getIdentificationNumber() == null ? " " : customer
-						.getIdentificationNumber());
-			}
-			execute(cmdSetCustomerData(
-					customer.getName(),
-					customer.getIdentificationNumber(),
-					traduceIvaResponsibility(customer.getIvaResponsibility()),
-					traduceIdentificationType(customer.getIdentificationType()),
-					customer.getLocation())
-			);
-		}
-		return response;
-	}
+//	protected FiscalPacket loadCustomerData(final Customer customer) throws FiscalPrinterStatusError, FiscalPrinterIOException {
+//		FiscalPacket response = null;
+//		if(customer != null) {
+//			// Según el manual de las impresoras HASAR, en este comando, si
+//			// el cliente es Consumidor Final y le monto no supera el máximo
+//			// los campos Nombre, DNI y Dirección son opcionales. Parece que la
+//			// impresora no contempla esto y pide los valores de los campos
+//			// de todos modos. Por esto, si es consumido final se reemplazan
+//			// nulls en los campos por un String espacio " ".
+//			if(customer.getIvaResponsibility() == Customer.CONSUMIDOR_FINAL) {
+//				customer.setName(customer.getName() == null?" ":customer.getName());
+//				customer.setLocation(customer.getLocation() == null?" ":customer.getLocation());
+//				customer.setIdentificationNumber(customer
+//						.getIdentificationNumber() == null ? " " : customer
+//						.getIdentificationNumber());
+//			}
+//			execute(cmdSetCustomerData(
+//					customer.getName(),
+//					customer.getIdentificationNumber(),
+//					traduceIvaResponsibility(customer.getIvaResponsibility()),
+//					traduceIdentificationType(customer.getIdentificationType()),
+//					customer.getLocation())
+//			);
+//		}
+//		return response;
+//	}
 
 	/**
 	 * Ejecuta los comandos necesarios para cargar las líneas de item
@@ -1180,31 +1179,31 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 			);
 			// Se carga el descuento del ítem si es que posee.
 			// Comando: @LastItemDiscount
-			if (item.hasDiscount()) {
-				DiscountLine discount = item.getDiscount();
-				execute(cmdLastItemDiscount(
-					discount.getDescription(),
-					discount.getAbsAmount(),
-					discount.isDiscount(),
-					!discount.isAmountIncludeIva(),
-					null));
-			}
+//			if (item.hasDiscount()) {
+//				DiscountLine discount = item.getDiscount();
+//				execute(cmdLastItemDiscount(
+//					discount.getDescription(),
+//					discount.getAbsAmount(),
+//					discount.isDiscount(),
+//					!discount.isAmountIncludeIva(),
+//					null));
+//			}
 		}
 	}
 
-    private void loadDocumentPerception(final Document document) throws FiscalPrinterStatusError,
-            FiscalPrinterIOException
-    {
-        PerceptionLine item = document.getPerceptionLine();
-        if (item != null)
-        {
-            execute(cmdPerceptions(
-                    item.getDescription(),
-                    item.getAmt(),
-                    item.getTaxRate())
-                    );
-        }
-    }
+//    private void loadDocumentPerception(final Document document) throws FiscalPrinterStatusError,
+//            FiscalPrinterIOException
+//    {
+//        PerceptionLine item = document.getPerceptionLine();
+//        if (item != null)
+//        {
+//            execute(cmdPerceptions(
+//                    item.getDescription(),
+//                    item.getAmt(),
+//                    item.getTaxRate())
+//                    );
+//        }
+//    }
 
 	/**
 	 * Ejecuta los comandos necesarios para cargar todos los descuentos del
@@ -1214,30 +1213,30 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
 		//////////////////////////////////////////////////////////////
 		// Se aplican las bonificaciones
 		// Comando: @ReturnRecharge
-		for (DiscountLine discount : document.getDocumentDiscounts()) {
-			execute(cmdReturnRecharge(
-				discount.getDescription(),
-				discount.getAmount(),
-				discount.getTaxRate(),
-				false,
-				BigDecimal.ZERO, // Impuestos internos
-				!discount.isAmountIncludeIva(),
-				null, // Display
-				DISCOUNT_RECHARGE));
-		}
+//		for (DiscountLine discount : document.getDocumentDiscounts()) {
+//			execute(cmdReturnRecharge(
+//				discount.getDescription(),
+//				discount.getAmount(),
+//				discount.getTaxRate(),
+//				false,
+//				BigDecimal.ZERO, // Impuestos internos
+//				!discount.isAmountIncludeIva(),
+//				null, // Display
+//				DISCOUNT_RECHARGE));
+//		}
 
 		//////////////////////////////////////////////////////////////
 		// Se aplica el descuento general en caso de existir.
 		// Comando: @GeneralDiscount
-		if(document.hasGeneralDiscount()) {
-			DiscountLine generalDiscount = document.getGeneralDiscount();
-			execute(cmdGeneralDiscount(
-				generalDiscount.getDescription(),
-				generalDiscount.getAmount(),
-				false,
-				!generalDiscount.isAmountIncludeIva(),
-				null));
-		}
+//		if(document.hasGeneralDiscount()) {
+//			DiscountLine generalDiscount = document.getGeneralDiscount();
+//			execute(cmdGeneralDiscount(
+//				generalDiscount.getDescription(),
+//				generalDiscount.getAmount(),
+//				false,
+//				!generalDiscount.isAmountIncludeIva(),
+//				null));
+//		}
 	}
 
 	@Override
@@ -1278,27 +1277,27 @@ public abstract class EpsonFiscalPrinter extends BasicFiscalPrinter implements E
         return amount.toString();
 	}
 
-	private void checkTaxes(Document document) throws FiscalPrinterStatusError, FiscalPrinterIOException {
-		//////////////////////////////////////////////////////////////
-		// Incia la transmisión de información de IVA
-		// Comando: @SendFirstIVA
-		FiscalPacket response = execute(cmdSendFirstIVA());
-		BigDecimal taxRate = null;
-		BigDecimal taxAmount = null;
-		BigDecimal taxBaseAmt = null;
-		int type = response.getInt(3);
-		while (type == 1) { // Tipo = 1 es IVA del documento
-			taxRate = response.getBigDecimal(4);
-			taxAmount = response.getBigDecimal(5);
-			taxBaseAmt = response.getBigDecimal(8);
-
-			System.out.println("- IVA: " + taxRate + ", Importe: " + taxAmount
-					+ ", Base:" + taxBaseAmt);
-
-			response = execute(cmdNextIVATransmission());
-			type = response.getInt(3);
-		}
-	}
+//	private void checkTaxes(Document document) throws FiscalPrinterStatusError, FiscalPrinterIOException {
+//		//////////////////////////////////////////////////////////////
+//		// Incia la transmisión de información de IVA
+//		// Comando: @SendFirstIVA
+//		FiscalPacket response = execute(cmdSendFirstIVA());
+//		BigDecimal taxRate = null;
+//		BigDecimal taxAmount = null;
+//		BigDecimal taxBaseAmt = null;
+//		int type = response.getInt(3);
+//		while (type == 1) { // Tipo = 1 es IVA del documento
+//			taxRate = response.getBigDecimal(4);
+//			taxAmount = response.getBigDecimal(5);
+//			taxBaseAmt = response.getBigDecimal(8);
+//
+//			System.out.println("- IVA: " + taxRate + ", Importe: " + taxAmount
+//					+ ", Base:" + taxBaseAmt);
+//
+//			response = execute(cmdNextIVATransmission());
+//			type = response.getInt(3);
+//		}
+//	}
 
 	@Override
 	public int getAllowedPaymentQty() {
