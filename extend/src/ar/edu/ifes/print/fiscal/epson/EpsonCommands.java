@@ -1,5 +1,10 @@
 package ar.edu.ifes.print.fiscal.epson;
 
+import java.math.BigDecimal;
+import java.util.Date;
+import ar.edu.ifes.print.fiscal.epson.EpsonFiscalPacket;
+
+
 public interface EpsonCommands {
 	
 		//Solicitud de estado (hoja 12)
